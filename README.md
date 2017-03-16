@@ -1,7 +1,6 @@
 # wazuh-EBK
 
-# ossec-EBK
-Stack and installation of a ossec-Elastic Search integration to get SIEM/PCI-Dashboard funcionality. 
+Stack and installation of a ossec-Elastic Search integration (based on Wazu repository) to get SIEM/PCI-Dashboard funcionality. 
 It uses ElasticSearch new stack (5.2), so Logtash is not required instead uses Filebeat to ingest data to ElasticSearch. Please note EBK is used instead ELK
 
 ## Stack
@@ -15,10 +14,11 @@ It uses ElasticSearch new stack (5.2), so Logtash is not required instead uses F
  * Windows: Install .exe on every host _ossec-agent-win32-2.8.3.exe_
  * Linux: TBD
 * 1 ossec-Server (Linux):  
- * It is based on https://github.com/xetus-oss/docker-ossec-server
+ * It is based on https://github.com/wazuh/wazuh-docker/blob/master/kibana/config/wait-for-it.sh
  * ossec-server with json output
  * ElasticFileBeat
 * 1 ElasticSearch server (Linux)
+* 1 Kibana server
 
 
 ### Ossec Server
@@ -34,11 +34,12 @@ It uses ElasticSearch new stack (5.2), so Logtash is not required instead uses F
 * Run oseec server Docker image to get an up and running ossec server that supports auto-enrollment and sends HIDS notifications.
 ```
 docker ps -q -a | xargs docker rm
-docker build -t sonfrau/ossec-ebk-server .
-docker run --name ossec-ebk-server -d -p 1514:1514/udp -p 1515:1515 -v /var/ossec_mnt:/var/ossec/data xmltravelgate/ossec-ebk-server
+docker build -t sonfrau/wazuh-filebeat .
+docker run --name wazuh-filebeat -d -p 55000:55000 -p 1514:1514/udp -p 1515:1515 -v /var/wazuh_mnt:/var/ossec/data sonfrau/wazuh-filebeat
 ```
 * Open Server Firewall port 1514 UDP
 * Open Server Firewall port 1515 TCP
+* Open Server Firewall port 55000 TCP
 
 ### ossec Agent
 
