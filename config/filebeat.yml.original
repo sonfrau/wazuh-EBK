@@ -1,0 +1,20 @@
+filebeat:
+ prospectors:
+  - input_type: log
+    paths:
+     - "/var/ossec/data/logs/alerts/alerts.json"
+    document_type: wazuh-alerts
+    json.message_key: log
+    json.keys_under_root: true
+    json.overwrite_keys: true
+
+output:
+ logstash:
+   # The Logstash hosts
+   #hosts: ["logstash:5000"]
+   hosts: ["es-test01:9200","es-test02:9200"]
+   # Optional protocol and basic auth credentials.
+   username: "elastic"
+   password: "changeme"
+#   ssl:
+#     certificate_authorities: ["/etc/filebeat/logstash.crt"]
