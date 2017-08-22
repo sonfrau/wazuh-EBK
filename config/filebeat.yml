@@ -10,10 +10,11 @@ filebeat:
 #-------------------------- Elasticsearch output ------------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["es-test01:9200","es-test02:9200"]
+  #hosts: ["es-test01:9200","es-test02:9200"]
+  hosts: ["192.168.34.4:9200","192.168.34.5:9200","192.168.34.6:9200"]
   # Customized index name to wazuh-alerts-*
   index: "wazuh-alerts-%{+yyyy.MM.dd}"
   # Optional protocol and basic auth credentials.
   #protocol: "https"
-  username: "elastic"
-  password: "changeme"
+  #username: "elastic"
+  #password: "changeme"

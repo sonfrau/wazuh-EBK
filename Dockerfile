@@ -6,6 +6,11 @@ RUN yum -y update; yum clean all;
 RUN yum -y install epel-release openssl useradd; yum clean all
 RUN groupadd -g 1000 ossec
 RUN useradd -u 1000 -g 1000 ossec
+
+# We must download and install NodeJS >= 4.6.1 version to run wazuh-api
+RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+RUN yum install nodejs npm; yum clean all
+
 RUN yum install -y wazuh-manager wazuh-api
 
 
@@ -16,9 +21,8 @@ RUN chmod 755 /init.bash &&\
   sync && /init.bash &&\
   sync && rm /init.bash
 
-
-RUN  curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.1.2-x86_64.rpm &&\
-  rpm -vi filebeat-5.1.2-x86_64.rpm && rm filebeat-5.1.2-x86_64.rpm
+RUN  curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.3.1-x86_64.rpm &&\
+  rpm -vi filebeat-5.3.1-x86_64.rpm && rm filebeat-5.3.1-x86_64.rpm
 
 COPY config/filebeat.yml /etc/filebeat/
 
