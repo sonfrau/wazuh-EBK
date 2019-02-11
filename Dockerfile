@@ -1,11 +1,11 @@
 FROM phusion/baseimage:latest
-ARG FILEBEAT_VERSION=6.1.3
+ARG FILEBEAT_VERSION=6.6.0
 
 RUN apt-get update; apt-get -y dist-upgrade
 RUN apt-get -y install openssl postfix bsd-mailx curl apt-transport-https lsb-release
 RUN groupadd -g 1000 ossec
 RUN useradd -u 1000 -g 1000 ossec
-RUN curl --silent --location https://deb.nodesource.com/setup_6.x | bash - &&\
+RUN curl --silent --location https://deb.nodesource.com/setup_8.x | bash - &&\
     apt-get install -y nodejs
 RUN curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
 RUN echo "deb https://packages.wazuh.com/3.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
@@ -23,6 +23,8 @@ RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${
     dpkg -i filebeat-${FILEBEAT_VERSION}-amd64.deb && rm filebeat-${FILEBEAT_VERSION}-amd64.deb
 
 COPY config/filebeat.yml /etc/filebeat/
+
+RUN chmod go-w /etc/filebeat/filebeat.yml
 
 ADD config/run.sh /tmp/run.sh
 RUN chmod 755 /tmp/run.sh
