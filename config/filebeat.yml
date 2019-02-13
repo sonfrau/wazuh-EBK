@@ -1,4 +1,4 @@
-filebeat.prospectors:
+filebeat.inputs:
 - type: log
   paths:
     - /var/ossec/logs/alerts/alerts.json
